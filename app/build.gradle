@@ -98,11 +98,15 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 
-    //koin
-//    implementation "io.insert-koin:koin-core:3.2.0"
-//    implementation "org.koin:koin-android:3.2.0"
-//    implementation "org.koin:koin-androidx-scope:3.2.0"
-//    implementation "org.koin:koin-androidx-viewmodel:3.2.0"
+    /*Moshi*/
+//    def moshiVersion = "1.12.0"
+//    implementation("com.squareup.moshi:moshi:$moshiVersion")
+//    kapt("com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion")
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+
+    //coil
+    implementation("io.coil-kt:coil:2.0.0-rc03")
+
 
 
 }

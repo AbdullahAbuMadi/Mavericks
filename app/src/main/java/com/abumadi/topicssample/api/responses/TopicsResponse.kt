@@ -1,11 +1,12 @@
 package com.abumadi.topicssample.api.responses
 
 data class TopicsResponse(
-    val Topics: List<Topic>
+    val Topics: List<Topic> = emptyList()
 ) {
     data class Topic(
-        val ImageLink: String,
-        val Name: String,
-        val id: Int
+
+        val ImageLink: String? = null,
+        val Name: String? = null,
+        val id: Int? = null
     )
 }

@@ -12,8 +12,6 @@ class TopicsActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        Mavericks.initialize(this.applicationContext)
-        
         val allTopicsFragment = AllTopicsFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, allTopicsFragment)

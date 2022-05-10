@@ -1,4 +1,6 @@
 package com.abumadi.topicssample.ui.view
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.abumadi.topicssample.R
 import com.abumadi.topicssample.api.responses.TopicsResponse
 import com.abumadi.topicssample.states.TopicModel
@@ -11,13 +13,10 @@ class TopicsItem(private val topics: TopicsResponse.Topic) : Item() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.apply {
-            //coil instead of glide >>good with coroutines
-            Glide
-                .with(context)
-                .load(topics.ImageLink)
-                .centerCrop()
-                .into(viewHolder.itemView.topic_imageview)
-
+            viewHolder.itemView.topic_imageview.load(topics.ImageLink)
+                {
+                    crossfade(true)
+                }
             viewHolder.itemView.topic_name_textview.text = topics.Name
         }
     }

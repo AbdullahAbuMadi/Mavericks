@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Retrofit
 import javax.inject.Singleton
 import dagger.Provides
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 
 @Module
@@ -19,8 +20,7 @@ import dagger.Provides
 
         val retrofit = Retrofit.Builder()
             .baseUrl(Constants.MOCK_API_BASE_URL)
-                //TODO replace gson with moshi ,or kotlinx serialization
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
             .build()
 
         return retrofit.create(ApiService::class.java)
