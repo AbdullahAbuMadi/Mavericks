@@ -3,7 +3,6 @@ package com.abumadi.topicssample.ui.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.abumadi.topicssample.R
-import com.airbnb.mvrx.Mavericks
 
 
 class TopicsActivity : AppCompatActivity(){

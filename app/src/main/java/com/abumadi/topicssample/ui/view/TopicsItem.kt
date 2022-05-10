@@ -1,10 +1,7 @@
 package com.abumadi.topicssample.ui.view
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.abumadi.topicssample.R
 import com.abumadi.topicssample.api.responses.TopicsResponse
-import com.abumadi.topicssample.states.TopicModel
-import com.bumptech.glide.Glide
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.topics_item.view.*

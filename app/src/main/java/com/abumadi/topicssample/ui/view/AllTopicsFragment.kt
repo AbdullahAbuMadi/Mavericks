@@ -1,6 +1,5 @@
 package com.abumadi.topicssample.ui.view
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
@@ -17,12 +16,6 @@ class AllTopicsFragment : Fragment(R.layout.fragment_all_topics), MavericksView 
 
     // add ViewModel declaration here
     private val viewModel: TopicsListViewModel by fragmentViewModel()
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        val component = DaggerAppComponent.builder()
-//            .build()
-//        component.injectToAllTopicsFragment(this)
-    }
 
     //because groupie addAll function need collection of group>>use extension fun to convert item to map
     private fun List<TopicsResponse.Topic>.toTopicsITem(): List<TopicsItem> {

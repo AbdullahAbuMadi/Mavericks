@@ -3,17 +3,14 @@ package com.abumadi.topicssample.others
 import android.app.Application
 import com.abumadi.topicssample.api.remote.ApiService
 import com.abumadi.topicssample.data.source.TopicsListRepository
-import com.abumadi.topicssample.data.test.RetrofitClient
+import com.abumadi.topicssample.di.component.DaggerAppComponent
 import com.airbnb.mvrx.Mavericks
+import javax.inject.Inject
 
-class TopicsListApp(private val apiService: ApiService = RetrofitClient.getApiService()) :
-    Application() {
+class TopicsListApp : Application() {
 
-//    companion object {
-//        val apiService: ApiService by lazy {
-//            RetrofitClient.getApiService()
-//        }
-//    }
+    @Inject
+    lateinit var apiService: ApiService
 
     val topicsListRepository by lazy {
         TopicsListRepository(apiService)
@@ -22,5 +19,8 @@ class TopicsListApp(private val apiService: ApiService = RetrofitClient.getApiSe
     override fun onCreate() {
         super.onCreate()
         Mavericks.initialize(this)
+        val component = DaggerAppComponent.builder()
+            .build()
+        component.injectToAllTopicsListApp(this)
     }
 }

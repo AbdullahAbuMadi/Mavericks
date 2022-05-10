@@ -1,14 +1,10 @@
 package com.abumadi.topicssample.ui.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.abumadi.topicssample.api.responses.TopicsResponse
 import com.abumadi.topicssample.data.source.TopicsListRepository
 import com.abumadi.topicssample.others.TopicsListApp
 import com.abumadi.topicssample.states.TopicsListState
 import com.airbnb.mvrx.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class TopicsListViewModel constructor(
     initialState: TopicsListState,

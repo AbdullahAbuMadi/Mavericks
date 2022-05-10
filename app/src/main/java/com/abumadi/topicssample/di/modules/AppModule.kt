@@ -10,25 +10,11 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class AppModule(private val apiService: ApiService) {
+class AppModule {
 
     @Singleton
     @Provides
     fun provideTopicsListRepository(
         apiService: ApiService
     ) = TopicsListRepository(apiService)
-
-    @Provides
-    @Singleton
-    fun providesApiService(): ApiService = apiService
-
-
-//    @Singleton
-//    @Provides
-//    fun provideTopicsListViewModel(
-//        repository: TopicsListRepository,
-//        initialState: TopicsListState
-//
-//    ) = TopicsListViewModel(repository,initialState)
-
 }
