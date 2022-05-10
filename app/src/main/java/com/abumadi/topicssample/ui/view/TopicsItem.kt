@@ -10,6 +10,7 @@ class TopicsItem(private val topics: TopicsResponse.Topic) : Item() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.apply {
+            //coil library
             viewHolder.itemView.topic_imageview.load(topics.ImageLink)
                 {
                     crossfade(true)

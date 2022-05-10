@@ -1,8 +1,5 @@
 package com.abumadi.topicssample.di.component
 
-
-import com.abumadi.topicssample.api.remote.ApiService
-import com.abumadi.topicssample.ui.view.AllTopicsFragment
 import com.abumadi.topicssample.di.modules.AppModule
 import com.abumadi.topicssample.di.modules.NetworkModule
 import com.abumadi.topicssample.others.TopicsListApp
