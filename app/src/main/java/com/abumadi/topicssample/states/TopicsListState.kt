@@ -6,5 +6,5 @@ import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.Uninitialized
 
 data class TopicsListState(
-    var topics: Async<List<TopicsResponse.Topic>?> = Uninitialized
+    val topics: Async<List<TopicsResponse.Topic>?> = Uninitialized
 ) : MavericksState
