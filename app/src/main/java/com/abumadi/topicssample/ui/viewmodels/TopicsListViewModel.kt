@@ -15,7 +15,7 @@ class TopicsListViewModel constructor(
         getData()
     }
 
-    private fun getData() = withState {
+     private fun getData() = withState {
         suspend {
             repository.getTopicsList()
         }.execute(

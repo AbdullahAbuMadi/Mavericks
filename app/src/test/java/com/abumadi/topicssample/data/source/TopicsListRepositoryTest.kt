@@ -56,11 +56,12 @@ class TopicsListRepositoryTest {
 
     //if TopicsList passed failed _topic list passed and getTopicsList will not be equal
     @Test
-    fun test2() = runBlocking {
-        coEvery { apiService.getTopicsList() } returns FAKE_FAILED_TOPICS_LIST
-        val result = topicsListRepository.getTopicsList()
-        assertNotEquals(result, FAKE_SUCCESS_TOPICS_LIST.body()?.Topics)
-    }
+    fun getTopicsList_ifTopicListPassedFailed_topicListPassedAndGetTopicsListWillNotBeEqual() =
+        runBlocking {
+            coEvery { apiService.getTopicsList() } returns FAKE_FAILED_TOPICS_LIST
+            val result = topicsListRepository.getTopicsList()
+            assertNotEquals(result, FAKE_SUCCESS_TOPICS_LIST.body()?.Topics)
+        }
 }
 
 
