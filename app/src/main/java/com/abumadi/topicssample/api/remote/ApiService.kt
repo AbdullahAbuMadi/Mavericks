@@ -9,4 +9,5 @@ interface ApiService {
 
     @GET(Constants.MOCK_API_TOPICS)
     suspend fun getTopicsList(): Response<TopicsResponse>
+    //TODO: you can just use TopicsResponse directly
 }

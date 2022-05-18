@@ -31,6 +31,7 @@ class TopicsListViewModel constructor(
         ): TopicsListViewModel {
             //registration in app class >>initiation should be should in app  class
             val topicListRepository = viewModelContext.app<TopicsListApp>().topicsListRepository
+            //TODO: this works but we need topicsListRepository to be retrieved from AppComponent instead by a getter function
             return TopicsListViewModel(state, topicListRepository)
         }
     }

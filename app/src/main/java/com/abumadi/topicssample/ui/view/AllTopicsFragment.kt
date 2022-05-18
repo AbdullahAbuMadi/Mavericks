@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import com.abumadi.topicssample.R
-import com.abumadi.topicssample.api.responses.TopicsResponse
 import com.abumadi.topicssample.ui.viewmodels.TopicsListViewModel
 import com.airbnb.mvrx.*
 import com.xwray.groupie.GroupAdapter
@@ -18,11 +17,12 @@ class AllTopicsFragment : Fragment(R.layout.fragment_all_topics), MavericksView 
     private val viewModel: TopicsListViewModel by fragmentViewModel()
 
     //because groupie addAll function need collection of group>>use extension fun to convert item to map
-    private fun List<TopicsResponse.Topic>.toTopicsITem(): List<TopicsItem> {
-        return this.map {
-            TopicsItem(it)
-        }
-    }
+//    private fun List<TopicsResponse.Topic>.toTopicsITem(): List<TopicsItem> {
+//        return this.map {
+//            TopicsItem(it)
+//        }
+//    }
+    //TODO: no need for this extension function, logic already migrated below
 
     override fun invalidate() {
         withState(viewModel) { state ->
@@ -35,7 +35,7 @@ class AllTopicsFragment : Fragment(R.layout.fragment_all_topics), MavericksView 
                 is Success -> {
                     progress_bar.visibility = View.GONE
                     val groupAdapter = GroupAdapter<ViewHolder>().apply {
-                        addAll(state.topics.invoke()?.toTopicsITem()?: emptyList())
+                        addAll(state.topics.invoke()?.map { TopicsItem(it) }?: emptyList())
                     }
                     all_topics_recyclerview.adapter = groupAdapter
                     all_topics_recyclerview.visibility = View.VISIBLE

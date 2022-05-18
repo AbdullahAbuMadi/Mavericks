@@ -62,6 +62,8 @@ class TopicsListRepositoryTest {
             val result = topicsListRepository.getTopicsList()
             assertNotEquals(result, FAKE_SUCCESS_TOPICS_LIST.body()?.Topics)
         }
+
+    //TODO: why not to add a real fail case ? like coEvery { apiService.getTopicsList() } throws Exception() and then use assertFails{ topicsListRepository.getTopicsList() }
 }
 
 

@@ -71,6 +71,7 @@ class TopicsListViewModelTest {
     @ExperimentalCoroutinesApi
     @Test
     fun getData_ensureThatTheFakeSuccessTopicsListDataIsInvoked() = runTest {
+        //TODO: you should call topicsListViewModel.getData() and test both success and failure cases
         val currentState = topicsListViewModel.stateFlow.first()
         assertEquals(currentState.topics.invoke(), FAKE_SUCCESS_TOPICS_LIST)
     }

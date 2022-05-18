@@ -5,6 +5,7 @@ import com.abumadi.topicssample.api.responses.TopicsResponse
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.topics_item.view.*
+//TODO: synthetic is deprecated and will be removed soon please migrate to ViewBinding and use BindableItem instead
 
 class TopicsItem(private val topics: TopicsResponse.Topic) : Item() {
 
