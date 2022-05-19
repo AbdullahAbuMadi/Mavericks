@@ -1,6 +1,4 @@
 package com.abumadi.topicssample.ui.view
-
-import android.view.View
 import coil.load
 import com.abumadi.topicssample.R
 import com.abumadi.topicssample.api.responses.TopicsResponse
