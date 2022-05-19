@@ -16,15 +16,13 @@ class TopicsListViewModel @AssistedInject constructor(
     private val repository: TopicsListRepository
 ) : MavericksViewModel<TopicsListState>(initialState) {
 
-    fun getData() = runBlocking {
-        withState {
+    fun getData() = withState {
             suspend {
                 repository.getTopicsList()
             }.execute(
                 Dispatchers.IO,
                 retainValue = TopicsListState::topics
             ) { copy(topics = it) }
-        }
     }
 
     @AssistedFactory

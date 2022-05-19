@@ -65,7 +65,7 @@ class TopicsListViewModelTest {
 
     @Test
     fun `getData_if Success data passed from repository_invoked data will be equal with passed data`() =
-        runBlocking {
+        runTest {
             coEvery { topicsListRepository.getTopicsList() } returns FAKE_SUCCESS_TOPICS_LIST
             topicsListViewModel.getData()
             topicsListViewModel.awaitState()
