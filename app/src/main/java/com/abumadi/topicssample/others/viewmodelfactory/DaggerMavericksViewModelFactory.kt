@@ -5,7 +5,6 @@ import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
-import javax.inject.Singleton
 
 class DaggerMavericksViewModelFactory<VM : MavericksViewModel<S>, S : MavericksState>(
     private val viewModelClass: Class<VM>
