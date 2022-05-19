@@ -8,5 +8,5 @@ import retrofit2.http.*
 interface ApiService {
 
     @GET(Constants.MOCK_API_TOPICS)
-    suspend fun getTopicsList(): Response<TopicsResponse>
+    suspend fun getTopicsList(): TopicsResponse
 }

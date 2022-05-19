@@ -1,13 +1,17 @@
 package com.abumadi.topicssample.ui.viewmodels
 
 import com.abumadi.topicssample.data.source.TopicsListRepository
-import com.abumadi.topicssample.others.TopicsListApp
+import com.abumadi.topicssample.others.viewmodelfactory.AssistedViewModelFactory
+import com.abumadi.topicssample.others.viewmodelfactory.daggerMavericksViewModelFactory
 import com.abumadi.topicssample.states.TopicsListState
 import com.airbnb.mvrx.*
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 
-class TopicsListViewModel constructor(
-    initialState: TopicsListState,
+class TopicsListViewModel @AssistedInject constructor(
+    @Assisted initialState: TopicsListState,
     private val repository: TopicsListRepository
 ) : MavericksViewModel<TopicsListState>(initialState) {
 
@@ -15,7 +19,7 @@ class TopicsListViewModel constructor(
         getData()
     }
 
-     private fun getData() = withState {
+    private fun getData() = withState {
         suspend {
             repository.getTopicsList()
         }.execute(
@@ -24,14 +28,11 @@ class TopicsListViewModel constructor(
         ) { copy(topics = it) }
     }
 
-    companion object : MavericksViewModelFactory<TopicsListViewModel, TopicsListState> {
-        override fun create(
-            viewModelContext: ViewModelContext,
-            state: TopicsListState
-        ): TopicsListViewModel {
-            //registration in app class >>initiation should be should in app  class
-            val topicListRepository = viewModelContext.app<TopicsListApp>().topicsListRepository
-            return TopicsListViewModel(state, topicListRepository)
-        }
+    @AssistedFactory
+    interface Factory : AssistedViewModelFactory<TopicsListViewModel, TopicsListState> {
+        override fun create(state: TopicsListState): TopicsListViewModel
     }
+
+    companion object :
+        MavericksViewModelFactory<TopicsListViewModel, TopicsListState> by daggerMavericksViewModelFactory()
 }

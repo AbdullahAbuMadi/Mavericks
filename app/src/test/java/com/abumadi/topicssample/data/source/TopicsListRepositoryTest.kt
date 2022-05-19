@@ -12,14 +12,14 @@ import org.junit.Test
 import retrofit2.Response
 
 private val FAKE_TOPIC_ONE = TopicsResponse.Topic(
-    ImageLink = "http://success/test1.com",
-    Name = "success/test1",
+    imageLink = "http://success/test1.com",
+    name = "success/test1",
     1
 )
 
 private val FAKE_TOPIC_TWO = TopicsResponse.Topic(
-    ImageLink = "http://success/test2.com",
-    Name = "success/test2",
+    imageLink = "http://success/test2.com",
+    name = "success/test2",
     2
 )
 private val FAKE_SUCCESS_TOPICS_LIST: Response<TopicsResponse> =
