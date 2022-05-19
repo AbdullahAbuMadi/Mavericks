@@ -9,23 +9,22 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
 class TopicsListViewModel @AssistedInject constructor(
     @Assisted initialState: TopicsListState,
     private val repository: TopicsListRepository
 ) : MavericksViewModel<TopicsListState>(initialState) {
 
-    init {
-        getData()
-    }
-
-    private fun getData() = withState {
-        suspend {
-            repository.getTopicsList()
-        }.execute(
-            Dispatchers.IO,
-            retainValue = TopicsListState::topics
-        ) { copy(topics = it) }
+    fun getData() = runBlocking {
+        withState {
+            suspend {
+                repository.getTopicsList()
+            }.execute(
+                Dispatchers.IO,
+                retainValue = TopicsListState::topics
+            ) { copy(topics = it) }
+        }
     }
 
     @AssistedFactory

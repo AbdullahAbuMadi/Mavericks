@@ -7,9 +7,9 @@ import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertNotEquals
+import kotlin.test.assertFails
 import org.junit.Before
 import org.junit.Test
-import retrofit2.Response
 
 private val FAKE_TOPIC_ONE = TopicsResponse.Topic(
     imageLink = "http://success/test1.com",
@@ -22,15 +22,12 @@ private val FAKE_TOPIC_TWO = TopicsResponse.Topic(
     name = "success/test2",
     2
 )
-private val FAKE_SUCCESS_TOPICS_LIST: Response<TopicsResponse> =
-    Response.success(
-        TopicsResponse(
-            listOf(FAKE_TOPIC_ONE, FAKE_TOPIC_TWO)
-        )
+private val FAKE_SUCCESS_TOPICS_LIST: TopicsResponse =
+    TopicsResponse(
+        listOf(FAKE_TOPIC_ONE, FAKE_TOPIC_TWO)
     )
 
-private val FAKE_FAILED_TOPICS_LIST: Response<TopicsResponse> =
-    Response.success(TopicsResponse(listOf(TopicsResponse.Topic())))
+private val FAKE_FAILED_TOPICS_LIST = Exception("fake failed exception")
 
 class TopicsListRepositoryTest {
 
@@ -51,19 +48,17 @@ class TopicsListRepositoryTest {
         runBlocking {
             coEvery { apiService.getTopicsList() } returns FAKE_SUCCESS_TOPICS_LIST
             val result = topicsListRepository.getTopicsList()
-            assertEquals(result, FAKE_SUCCESS_TOPICS_LIST.body()?.Topics)
+            assertEquals(result, FAKE_SUCCESS_TOPICS_LIST.Topics)
         }
 
     //if TopicsList passed failed _topic list passed and getTopicsList will not be equal
     @Test
     fun getTopicsList_ifTopicListPassedFailed_topicListPassedAndGetTopicsListWillNotBeEqual() =
         runBlocking {
-            coEvery { apiService.getTopicsList() } returns FAKE_FAILED_TOPICS_LIST
-            val result = topicsListRepository.getTopicsList()
-            assertNotEquals(result, FAKE_SUCCESS_TOPICS_LIST.body()?.Topics)
+            coEvery { apiService.getTopicsList() } throws FAKE_FAILED_TOPICS_LIST
+            val result = assertFails { topicsListRepository.getTopicsList() }
+            assertEquals(result, FAKE_FAILED_TOPICS_LIST)
         }
-
-    //TODO: why not to add a real fail case ? like coEvery { apiService.getTopicsList() } throws Exception() and then use assertFails{ topicsListRepository.getTopicsList() }
 }
 
 

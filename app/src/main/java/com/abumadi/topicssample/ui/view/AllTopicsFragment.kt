@@ -25,6 +25,7 @@ class AllTopicsFragment : Fragment(), MavericksView {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAllTopicsBinding.inflate(inflater, container, false)
+        viewModel.getData()
         return binding.root
     }
 

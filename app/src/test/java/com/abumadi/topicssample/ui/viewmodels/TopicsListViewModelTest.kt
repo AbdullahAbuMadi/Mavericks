@@ -6,7 +6,6 @@ import com.abumadi.topicssample.states.TopicsListState
 import io.mockk.mockk
 import org.junit.Assert.*
 import org.junit.Before
-import com.airbnb.mvrx.*
 import com.airbnb.mvrx.test.MvRxTestRule
 import io.mockk.coEvery
 import kotlinx.coroutines.*
@@ -14,6 +13,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
+import java.lang.Exception
 
 
 private val FAKE_TOPIC_ONE = TopicsResponse.Topic(
@@ -30,7 +30,9 @@ private val FAKE_TOPIC_TWO = TopicsResponse.Topic(
 private val FAKE_SUCCESS_TOPICS_LIST =
     listOf(FAKE_TOPIC_ONE, FAKE_TOPIC_TWO)
 
-//todo if we put co every in test function it is not working
+private val FAKE_FAILED_TOPICS_LIST = Exception("fake exception")
+
+@ExperimentalCoroutinesApi
 class TopicsListViewModelTest {
 
     @get:Rule
@@ -46,24 +48,38 @@ class TopicsListViewModelTest {
     fun setUp() {
         state = TopicsListState()
         topicsListRepository = mockk()
-        coEvery { topicsListRepository.getTopicsList() } returns FAKE_SUCCESS_TOPICS_LIST
         topicsListViewModel = TopicsListViewModel(state, topicsListRepository)
     }
 
-    //data
-    @ExperimentalCoroutinesApi
-    @Test
-    fun getData_ensureThatTheFakeSuccessTopicsListDataIsInvoked() = runTest {
-        //TODO: you should call topicsListViewModel.getData() and test both success and failure cases
-        val currentState = topicsListViewModel.stateFlow.first()
-        assertEquals(currentState.topics.invoke(), FAKE_SUCCESS_TOPICS_LIST)
-    }
 
-    //state
-    @ExperimentalCoroutinesApi
+    //getData() function
     @Test
-    fun getData_ensureThatTheFakeSuccessTopicsListStateIsExecuted() = runTest {
-        val currentState = topicsListViewModel.stateFlow.first()
-            assertEquals(currentState.topics, Success(FAKE_SUCCESS_TOPICS_LIST))
-    }
+    fun `getData_if data does not passed yet from repository_invoked data will be null`() =
+        runTest {
+            topicsListViewModel.getData()
+            //without this >> state will return Loading always
+            topicsListViewModel.awaitState()
+            val currentState = topicsListViewModel.stateFlow.first()
+            assertEquals(currentState.topics.invoke(), null)
+        }
+
+    @Test
+    fun `getData_if Success data passed from repository_invoked data will be equal with passed data`() =
+        runBlocking {
+            coEvery { topicsListRepository.getTopicsList() } returns FAKE_SUCCESS_TOPICS_LIST
+            topicsListViewModel.getData()
+            topicsListViewModel.awaitState()
+            val currentState =  topicsListViewModel.stateFlow.first()
+            assertEquals(currentState.topics.invoke(), FAKE_SUCCESS_TOPICS_LIST)
+        }
+
+    @Test
+    fun `getData_if data failed to passed from repository_invoked data will be equal null`() =
+        runTest {
+            coEvery { topicsListRepository.getTopicsList() } throws FAKE_FAILED_TOPICS_LIST
+            topicsListViewModel.getData()
+            topicsListViewModel.awaitState()
+            val currentState = topicsListViewModel.stateFlow.first()
+            assertEquals(currentState.topics.invoke(), null)
+        }
 }
