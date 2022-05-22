@@ -20,7 +20,6 @@ class TopicsListViewModel @AssistedInject constructor(
             suspend {
                 repository.getTopicsList()
             }.execute(
-                Dispatchers.IO,
                 retainValue = TopicsListState::topics
             ) { copy(topics = it) }
     }

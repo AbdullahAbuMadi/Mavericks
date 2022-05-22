@@ -7,6 +7,7 @@ import io.mockk.mockk
 import org.junit.Assert.*
 import org.junit.Before
 import com.airbnb.mvrx.test.MvRxTestRule
+import com.airbnb.mvrx.withState
 import io.mockk.coEvery
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
@@ -39,38 +40,24 @@ class TopicsListViewModelTest {
     val mvrxRule = MvRxTestRule()//this rule will initialize mavericks as test isolated with app
 
 
-    private lateinit var topicsListRepository: TopicsListRepository
-    private lateinit var state: TopicsListState
+    private val topicsListRepository: TopicsListRepository = mockk()
     private lateinit var topicsListViewModel: TopicsListViewModel
 
 
     @Before
     fun setUp() {
-        state = TopicsListState()
-        topicsListRepository = mockk()
-        topicsListViewModel = TopicsListViewModel(state, topicsListRepository)
+        topicsListViewModel = TopicsListViewModel(TopicsListState(), topicsListRepository)
     }
 
-
     //getData() function
-    @Test
-    fun `getData_if data does not passed yet from repository_invoked data will be null`() =
-        runTest {
-            topicsListViewModel.getData()
-            //without this >> state will return Loading always
-            topicsListViewModel.awaitState()
-            val currentState = topicsListViewModel.stateFlow.first()
-            assertEquals(currentState.topics.invoke(), null)
-        }
 
     @Test
     fun `getData_if Success data passed from repository_invoked data will be equal with passed data`() =
         runTest {
             coEvery { topicsListRepository.getTopicsList() } returns FAKE_SUCCESS_TOPICS_LIST
             topicsListViewModel.getData()
-            topicsListViewModel.awaitState()
-            val currentState =  topicsListViewModel.stateFlow.first()
-            assertEquals(currentState.topics.invoke(), FAKE_SUCCESS_TOPICS_LIST)
+            val currentState = topicsListViewModel.stateFlow.first()
+            assertEquals(FAKE_SUCCESS_TOPICS_LIST, currentState.topics.invoke())
         }
 
     @Test
@@ -78,8 +65,8 @@ class TopicsListViewModelTest {
         runTest {
             coEvery { topicsListRepository.getTopicsList() } throws FAKE_FAILED_TOPICS_LIST
             topicsListViewModel.getData()
-            topicsListViewModel.awaitState()
-            val currentState = topicsListViewModel.stateFlow.first()
-            assertEquals(currentState.topics.invoke(), null)
+            withState(topicsListViewModel) { state ->
+                assertEquals(null, state.topics.invoke())
+            }
         }
 }
